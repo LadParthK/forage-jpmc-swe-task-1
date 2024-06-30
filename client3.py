@@ -29,8 +29,6 @@ QUERY = "http://localhost:8080/query?id={}"
 N = 500
 
 
-
-# Make change here 
 def getDataPoint(quote):
     """ Produce all the needed values to generate a datapoint """
     """ ------------- Update this function ------------- """
@@ -40,7 +38,6 @@ def getDataPoint(quote):
     price = (bid_price+ask_price) / 2 # Bid price + ask price then divide by 2 : to get the average price of the stock 
     return stock, bid_price, ask_price, price
 
-# Make change here 
 def getRatio(price_a, price_b):
     """ Get ratio of price_a and price_b """
     """ ------------- Update this function ------------- """
@@ -49,7 +46,7 @@ def getRatio(price_a, price_b):
         return # remove this line
     return price_a/price_b # returns the ratio of price_a and price_b 
 
-# Make change here 
+
 # Main
 if __name__ == "__main__":
     # Query the price once every N seconds.

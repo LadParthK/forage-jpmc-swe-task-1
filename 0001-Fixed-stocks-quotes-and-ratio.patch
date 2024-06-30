@@ -1,0 +1,60 @@
+From 685f26cad0b12a0812b3c886734a69c1ce020094 Mon Sep 17 00:00:00 2001
+From: ladparthk <ladparthk@outlook.com>
+Date: Sun, 30 Jun 2024 17:10:46 -0500
+Subject: [PATCH] Fixed stocks quotes and ratio
+
+---
+ client3.py | 18 ++++++++++++------
+ 1 file changed, 12 insertions(+), 6 deletions(-)
+
+diff --git a/client3.py b/client3.py
+index 3fc09b7..0978fe3 100644
+--- a/client3.py
++++ b/client3.py
+@@ -29,31 +29,37 @@ QUERY = "http://localhost:8080/query?id={}"
+ N = 500
+ 
+ 
++
++# Make change here 
+ def getDataPoint(quote):
+     """ Produce all the needed values to generate a datapoint """
+     """ ------------- Update this function ------------- """
+     stock = quote['stock']
+     bid_price = float(quote['top_bid']['price'])
+     ask_price = float(quote['top_ask']['price'])
+-    price = bid_price
++    price = (bid_price+ask_price) / 2 # Bid price + ask price then divide by 2 : to get the average price of the stock 
+     return stock, bid_price, ask_price, price
+ 
+-
++# Make change here 
+ def getRatio(price_a, price_b):
+     """ Get ratio of price_a and price_b """
+     """ ------------- Update this function ------------- """
+-    return 1
+-
++    if (price_b == 0): # if price b is zero then return 
++        # when price_b is 0 avoid throwing ZeroDivisionError
++        return # remove this line
++    return price_a/price_b # returns the ratio of price_a and price_b 
+ 
++# Make change here 
+ # Main
+ if __name__ == "__main__":
+     # Query the price once every N seconds.
+     for _ in iter(range(N)):
+         quotes = json.loads(urllib.request.urlopen(QUERY.format(random.random())).read())
+-
+         """ ----------- Update to get the ratio --------------- """
++        prices = {}
+         for quote in quotes:
+             stock, bid_price, ask_price, price = getDataPoint(quote)
++            prices[stock] = price
+             print("Quoted %s at (bid:%s, ask:%s, price:%s)" % (stock, bid_price, ask_price, price))
+ 
+-        print("Ratio %s" % getRatio(price, price))
++        print("Ratio %s" % getRatio(prices["ABC"], prices["DEF"]))
+-- 
+2.45.2.windows.1
+
